@@ -17,13 +17,13 @@ const Hero = () => {
             transition={{ duration: 0.6 }}
             className="max-w-xl text-center md:text-left"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 dark:text-white">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-950 dark:text-white">
               Elevate Your <span className="text-indigo-600 dark:text-indigo-400">Style</span>
             </h1>
             <p className="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300">
               Discover the latest trends, curated collections, and timeless classics. Shop fashion that fits your vibe.
             </p>
-            <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <div className="mt-6 flex flex-row gap-4  md:justify-start justify-center">
               <Link 
                 href="/shop"
                 className="px-6 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-500 transition-colors shadow-md"

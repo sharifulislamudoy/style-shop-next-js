@@ -66,7 +66,7 @@ const Navbar = () => {
                                     key={route.name}
                                     href={route.path}
                                     className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${pathname === route.path
-                                            ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-900/30'
+                                            ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/30'
                                             : 'text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                                         }`}
                                 >
@@ -144,7 +144,7 @@ const Navbar = () => {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="md:hidden bg-white dark:bg-gray-900 shadow-lg"
+                        className="md:hidden bg-white dark:bg-gray-950 shadow-lg"
                     >
                         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                             {routes.map((route) => (
@@ -153,7 +153,7 @@ const Navbar = () => {
                                     href={route.path}
                                     onClick={() => setIsOpen(false)}
                                     className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${pathname === route.path
-                                            ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-900/30'
+                                            ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/30'
                                             : 'text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                                         }`}
                                 >
