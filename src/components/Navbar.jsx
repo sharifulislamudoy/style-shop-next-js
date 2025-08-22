@@ -5,11 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    ShoppingCart,
-    User,
-    Search,
-    Sun,
-    Moon,
     Menu,
     X
 } from 'lucide-react';
