@@ -46,7 +46,6 @@ const Navbar = () => {
     const routes = [
         { name: 'Home', path: '/' },
         { name: 'Products', path: '/products' },
-        { name: 'Categories', path: '/categories' },
         { name: 'New Arrivals', path: '/new' },
         { name: 'Sale', path: '/sale' },
         { name: 'Contact', path: '/contact' },

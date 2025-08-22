@@ -7,7 +7,6 @@ export default function ProductsLoading() {
           <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mx-auto mb-4 animate-pulse"></div>
           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mx-auto animate-pulse"></div>
         </div>
-        
         <div className="flex flex-col md:flex-row gap-8">
           
           <div className="flex-1">
