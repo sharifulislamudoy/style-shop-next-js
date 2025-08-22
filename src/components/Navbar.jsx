@@ -17,6 +17,7 @@ import {
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [theme, setTheme] = useState('light');
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // Authentication state
     const pathname = usePathname();
 
     useEffect(() => {
@@ -24,6 +25,15 @@ const Navbar = () => {
             (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         setTheme(savedTheme);
         document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+        
+        // Check if user is authenticated (you'll need to implement your actual auth check)
+        const checkAuthStatus = () => {
+            // This is a placeholder - replace with your actual authentication logic
+            const token = localStorage.getItem('authToken');
+            setIsLoggedIn(!!token);
+        };
+        
+        checkAuthStatus();
     }, []);
 
     const toggleTheme = () => {
@@ -35,7 +45,7 @@ const Navbar = () => {
 
     const routes = [
         { name: 'Home', path: '/' },
-        { name: 'Product', path: '/product' },
+        { name: 'Products', path: '/products' },
         { name: 'Categories', path: '/categories' },
         { name: 'New Arrivals', path: '/new' },
         { name: 'Sale', path: '/sale' },
@@ -78,7 +88,7 @@ const Navbar = () => {
 
                     {/* Right side icons */}
                     <div className="flex items-center space-x-4">
-                        {/* Search */}
+                        {/* Show search and theme toggle for all users */}
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
@@ -88,30 +98,6 @@ const Navbar = () => {
                             <Search size={20} />
                         </motion.button>
 
-                        {/* Cart */}
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative"
-                            aria-label="Shopping cart"
-                        >
-                            <ShoppingCart size={20} />
-                            <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                                3
-                            </span>
-                        </motion.button>
-
-                        {/* User Account */}
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                            aria-label="User account"
-                        >
-                            <User size={20} />
-                        </motion.button>
-
-                        {/* Theme Toggle */}
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
@@ -121,6 +107,54 @@ const Navbar = () => {
                         >
                             {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
                         </motion.button>
+
+                        {/* Show cart and user account only if logged in */}
+                        {isLoggedIn ? (
+                            <>
+                                <motion.button
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative"
+                                    aria-label="Shopping cart"
+                                >
+                                    <ShoppingCart size={20} />
+                                    <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                        3
+                                    </span>
+                                </motion.button>
+
+                                <motion.button
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    aria-label="User account"
+                                >
+                                    <User size={20} />
+                                </motion.button>
+                            </>
+                        ) : (
+                            // Show login/register buttons if not logged in
+                            <div className="hidden md:flex items-center space-x-2">
+                                <Link href="/login">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="px-4 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    >
+                                        Login
+                                    </motion.button>
+                                </Link>
+                                <Link href="/register">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="px-4 py-2 rounded-md text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700"
+                                    >
+                                        Register
+                                    </motion.button>
+                                </Link>
+                            </div>
+                        )}
 
                         {/* Mobile menu button */}
                         <motion.button
@@ -160,6 +194,26 @@ const Navbar = () => {
                                     {route.name}
                                 </Link>
                             ))}
+                            
+                            {/* Mobile login/register buttons for non-authenticated users */}
+                            {!isLoggedIn && (
+                                <div className="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700">
+                                    <Link 
+                                        href="/login" 
+                                        onClick={() => setIsOpen(false)}
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    >
+                                        Login
+                                    </Link>
+                                    <Link 
+                                        href="/register" 
+                                        onClick={() => setIsOpen(false)}
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    >
+                                        Register
+                                    </Link>
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 )}

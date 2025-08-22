@@ -3,7 +3,7 @@ import ProductHighlightClient from "./ProductHighlightClient";
 
 export default async function ProductHighlightSection() {
   const client = await clientPromise;
-  const db = client.db("ShopStyleDB"); // <-- make sure this matches your DB name
+  const db = client.db("ShopStyleDB"); 
   const products = await db.collection("products").find({}).toArray();
 
   // Convert MongoDB ObjectId to string for React keys
