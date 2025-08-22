@@ -13,27 +13,20 @@ import {
     Menu,
     X
 } from 'lucide-react';
+import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [theme, setTheme] = useState('light');
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Authentication state
     const pathname = usePathname();
+    const { data: session, status } = useSession();
+    const isLoggedIn = status === "authenticated";
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme') ||
             (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         setTheme(savedTheme);
         document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-        
-        // Check if user is authenticated (you'll need to implement your actual auth check)
-        const checkAuthStatus = () => {
-            // This is a placeholder - replace with your actual authentication logic
-            const token = localStorage.getItem('authToken');
-            setIsLoggedIn(!!token);
-        };
-        
-        checkAuthStatus();
     }, []);
 
     const toggleTheme = () => {
@@ -75,8 +68,8 @@ const Navbar = () => {
                                     key={route.name}
                                     href={route.path}
                                     className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${pathname === route.path
-                                            ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/30'
-                                            : 'text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                        ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/30'
+                                        : 'text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                                         }`}
                                 >
                                     {route.name}
@@ -87,48 +80,17 @@ const Navbar = () => {
 
                     {/* Right side icons */}
                     <div className="flex items-center space-x-4">
-                        {/* Show search and theme toggle for all users */}
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                            aria-label="Search"
-                        >
-                            <Search size={20} />
-                        </motion.button>
 
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={toggleTheme}
-                            className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                            aria-label="Toggle theme"
-                        >
-                            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-                        </motion.button>
-
-                        {/* Show cart and user account only if logged in */}
+                        {/* Show cart and user if logged in */}
                         {isLoggedIn ? (
                             <>
                                 <motion.button
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative"
-                                    aria-label="Shopping cart"
+                                    className="p-2 rounded-xl text-white bg-red-700 px-4 py-1"
+                                    onClick={() => signOut({ callbackUrl: "/" })} 
                                 >
-                                    <ShoppingCart size={20} />
-                                    <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                                        3
-                                    </span>
-                                </motion.button>
-
-                                <motion.button
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                    aria-label="User account"
-                                >
-                                    <User size={20} />
+                                    Sign Out
                                 </motion.button>
                             </>
                         ) : (
@@ -186,26 +148,26 @@ const Navbar = () => {
                                     href={route.path}
                                     onClick={() => setIsOpen(false)}
                                     className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${pathname === route.path
-                                            ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/30'
-                                            : 'text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                        ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/30'
+                                        : 'text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                                         }`}
                                 >
                                     {route.name}
                                 </Link>
                             ))}
-                            
-                            {/* Mobile login/register buttons for non-authenticated users */}
+
+                            {/* Mobile login/register for non-authenticated users */}
                             {!isLoggedIn && (
                                 <div className="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700">
-                                    <Link 
-                                        href="/login" 
+                                    <Link
+                                        href="/login"
                                         onClick={() => setIsOpen(false)}
                                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                                     >
                                         Login
                                     </Link>
-                                    <Link 
-                                        href="/register" 
+                                    <Link
+                                        href="/register"
                                         onClick={() => setIsOpen(false)}
                                         className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                                     >

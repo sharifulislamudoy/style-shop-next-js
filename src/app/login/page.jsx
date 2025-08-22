@@ -27,13 +27,13 @@ const LoginPage = () => {
     if (result.error) {
       setError(result.error);
     } else {
-      router.push("/products"); // redirect after login
+      router.push("/products");
     }
   };
 
   const handleGoogleLogin = () => {
     // Handle Google login logic here
-    console.log('Google login clicked');
+    signIn("google", { callbackUrl: "/products" });
   };
 
   return (

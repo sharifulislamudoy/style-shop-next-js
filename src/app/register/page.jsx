@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import AuthLayout from '@/components/AuthLayout';
 import { registerUser } from '../actions/auth/registerUser';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 const RegisterPage = () => {
     const router = useRouter(); // ✅ initialize router here
@@ -47,7 +48,7 @@ const RegisterPage = () => {
     };
 
     const handleGoogleSignUp = () => {
-        console.log('Google sign up clicked');
+        signIn("google", { callbackUrl: "/products" });
     };
 
     return (
