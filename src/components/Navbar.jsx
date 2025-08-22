@@ -79,11 +79,20 @@ const Navbar = () => {
                         {/* Show cart and user if logged in */}
                         {isLoggedIn ? (
                             <>
+                                <Link href="/dashboard/add-product">
+                                    <motion.button
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="p-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                                    >
+                                        Add Product
+                                    </motion.button>
+                                </Link>
                                 <motion.button
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="p-2 rounded-xl text-white bg-red-700 px-4 py-1"
-                                    onClick={() => signOut({ callbackUrl: "/" })} 
+                                    className="p-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 px-4 py-2"
+                                    onClick={() => signOut({ callbackUrl: "/" })}
                                 >
                                     Sign Out
                                 </motion.button>
@@ -155,6 +164,13 @@ const Navbar = () => {
                             {!isLoggedIn && (
                                 <div className="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700">
                                     <Link
+                                        href="/dashboard/add-product"
+                                        onClick={() => setIsOpen(false)}
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    >
+                                        Add Product
+                                    </Link>
+                                    <Link
                                         href="/login"
                                         onClick={() => setIsOpen(false)}
                                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -174,7 +190,7 @@ const Navbar = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </nav>
+        </nav >
     );
 };
 
