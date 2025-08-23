@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['i.ibb.co.com'], // Use the correct domain with the extra .com
+    domains: ['i.ibb.co.com'],
+    domains: ["i.ibb.co"],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i.ibb.co.com', // Update this to match your image URLs
+        hostname: 'i.ibb.co.com', 
         port: '',
         pathname: '/**',
       },

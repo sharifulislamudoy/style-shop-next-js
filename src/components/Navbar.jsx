@@ -6,12 +6,15 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Menu,
-    X
+    X,
+    User,
+    ShoppingCart
 } from 'lucide-react';
 import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
     const [theme, setTheme] = useState('light');
     const pathname = usePathname();
     const { data: session, status } = useSession();
@@ -75,50 +78,72 @@ const Navbar = () => {
 
                     {/* Right side icons */}
                     <div className="flex items-center space-x-4">
+                        {/* Shopping Cart - Always visible */}
+                        <Link href="/cart">
+                            <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                aria-label="Shopping cart"
+                            >
+                                <ShoppingCart size={20} />
+                            </motion.button>
+                        </Link>
 
-                        {/* Show cart and user if logged in */}
+                        {/* User section */}
                         {isLoggedIn ? (
-                            <>
-                                <Link href="/dashboard/add-product">
-                                    <motion.button
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="p-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                                    >
-                                        Add Product
-                                    </motion.button>
-                                </Link>
+                            <div className="relative">
                                 <motion.button
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="p-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 px-4 py-2"
-                                    onClick={() => signOut({ callbackUrl: "/" })}
+                                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                                    className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    aria-label="User menu"
                                 >
-                                    Sign Out
+                                    <User size={20} />
                                 </motion.button>
-                            </>
-                        ) : (
-                            // Show login/register buttons if not logged in
-                            <div className="hidden md:flex items-center space-x-2">
-                                <Link href="/login">
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="px-4 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                    >
-                                        Login
-                                    </motion.button>
-                                </Link>
-                                <Link href="/register">
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="px-4 py-2 rounded-md text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700"
-                                    >
-                                        Register
-                                    </motion.button>
-                                </Link>
+
+                                {/* User dropdown menu */}
+                                <AnimatePresence>
+                                    {userMenuOpen && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50"
+                                        >
+                                            <Link
+                                                href="/dashboard/add-product"
+                                                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                onClick={() => setUserMenuOpen(false)}
+                                            >
+                                                Add Product
+                                            </Link>
+                                            <button
+                                                onClick={() => {
+                                                    setUserMenuOpen(false);
+                                                    signOut({ callbackUrl: "/" });
+                                                }}
+                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                            >
+                                                Sign Out
+                                            </button>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </div>
+                        ) : (
+                            // Show Join Us button if not logged in
+                            <Link href="/register">
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-4 py-2 rounded-md text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700"
+                                >
+                                    Join Us
+                                </motion.button>
+                            </Link>
                         )}
 
                         {/* Mobile menu button */}
@@ -160,32 +185,46 @@ const Navbar = () => {
                                 </Link>
                             ))}
 
-                            {/* Mobile login/register for non-authenticated users */}
-                            {!isLoggedIn && (
-                                <div className="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700">
-                                    <Link
-                                        href="/dashboard/add-product"
-                                        onClick={() => setIsOpen(false)}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                    >
-                                        Add Product
-                                    </Link>
-                                    <Link
-                                        href="/login"
-                                        onClick={() => setIsOpen(false)}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                    >
-                                        Login
-                                    </Link>
-                                    <Link
-                                        href="/register"
-                                        onClick={() => setIsOpen(false)}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                    >
-                                        Register
-                                    </Link>
-                                </div>
-                            )}
+                            {/* Mobile user actions */}
+                            <div className="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700">
+                                {isLoggedIn ? (
+                                    <>
+                                        <Link
+                                            href="/dashboard/add-product"
+                                            onClick={() => setIsOpen(false)}
+                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                        >
+                                            Add Product
+                                        </Link>
+                                        <button
+                                            onClick={() => {
+                                                setIsOpen(false);
+                                                signOut({ callbackUrl: "/" });
+                                            }}
+                                            className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                        >
+                                            Sign Out
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Link
+                                            href="/login"
+                                            onClick={() => setIsOpen(false)}
+                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                        >
+                                            Login
+                                        </Link>
+                                        <Link
+                                            href="/register"
+                                            onClick={() => setIsOpen(false)}
+                                            className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                        >
+                                            Join Us
+                                        </Link>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </motion.div>
                 )}

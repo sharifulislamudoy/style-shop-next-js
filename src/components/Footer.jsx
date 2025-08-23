@@ -45,14 +45,6 @@ const Footer = () => {
     ]
   };
 
-  const paymentMethods = [
-    { name: 'Visa', icon: 'Visa' },
-    { name: 'Mastercard', icon: 'Mastercard' },
-    { name: 'PayPal', icon: 'PayPal' },
-    { name: 'Apple Pay', icon: 'ApplePay' },
-    { name: 'Google Pay', icon: 'GooglePay' },
-  ];
-
   return (
     <footer className="bg-black text-white">
 
@@ -165,36 +157,13 @@ const Footer = () => {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-gray-800">
+      <div className="border-t flex justify-center items-center border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center text-gray-400 text-sm mb-4 md:mb-0">
               <span>© {currentYear} StyleShop. Made with</span>
               <Heart size={16} className="mx-1 text-red-500 fill-current" />
               <span>by your brand</span>
-            </div>
-            
-            <div className="flex flex-wrap justify-center">
-              {footerLinks.legal.map((link) => (
-                <a 
-                  key={link.name} 
-                  href={link.href} 
-                  className="text-gray-400 hover:text-indigo-400 text-sm mx-3 mb-2 md:mb-0 transition-colors"
-                >
-                  {link.name}
-                </a>
-              ))}
-            </div>
-            
-            <div className="flex items-center space-x-2 mt-4 md:mt-0">
-              <span className="text-gray-400 text-sm">We accept:</span>
-              <div className="flex space-x-1">
-                {paymentMethods.map((method) => (
-                  <div key={method.name} className="bg-gray-800 px-2 py-1 rounded text-xs">
-                    {method.name}
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
