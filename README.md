@@ -9,5 +9,5 @@ StyleShop is a simple e-commerce web application built with Next.js and NextAuth
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/styleshop.git
-cd styleshop
+git clone https://github.com/sharifulislamudoy/style-shop-next-js
+cd style-shop-next-js
