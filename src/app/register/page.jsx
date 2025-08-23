@@ -40,14 +40,21 @@ const RegisterPage = () => {
         if (result.error) {
             setError(result.error);
         } else {
-            // ✅ redirect to /products
+            // mark success before redirect
+            if (typeof window !== "undefined") {
+                localStorage.setItem("loginSuccess", "true");
+            }
             router.push('/products');
         }
 
         setIsLoading(false);
     };
 
+
     const handleGoogleSignUp = () => {
+        if (typeof window !== "undefined") {
+            localStorage.setItem("loginSuccess", "true");
+        }
         signIn("google", { callbackUrl: "/products" });
     };
 

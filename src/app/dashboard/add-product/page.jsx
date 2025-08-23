@@ -109,7 +109,7 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-950 py-8 px-4">
+    <div className="min-h-screen dark:bg-gradient-to-br from-gray-900 to-gray-950 py-8 px-4">
       <div className="w-11/12 mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

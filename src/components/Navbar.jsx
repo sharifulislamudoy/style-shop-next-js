@@ -8,7 +8,6 @@ import {
     Menu,
     X,
     User,
-    ShoppingCart
 } from 'lucide-react';
 import { signOut, useSession } from "next-auth/react";
 
@@ -78,17 +77,6 @@ const Navbar = () => {
 
                     {/* Right side icons */}
                     <div className="flex items-center space-x-4">
-                        {/* Shopping Cart - Always visible */}
-                        <Link href="/cart">
-                            <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                aria-label="Shopping cart"
-                            >
-                                <ShoppingCart size={20} />
-                            </motion.button>
-                        </Link>
 
                         {/* User section */}
                         {isLoggedIn ? (
@@ -184,47 +172,6 @@ const Navbar = () => {
                                     {route.name}
                                 </Link>
                             ))}
-
-                            {/* Mobile user actions */}
-                            <div className="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700">
-                                {isLoggedIn ? (
-                                    <>
-                                        <Link
-                                            href="/dashboard/add-product"
-                                            onClick={() => setIsOpen(false)}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                        >
-                                            Add Product
-                                        </Link>
-                                        <button
-                                            onClick={() => {
-                                                setIsOpen(false);
-                                                signOut({ callbackUrl: "/" });
-                                            }}
-                                            className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                        >
-                                            Sign Out
-                                        </button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Link
-                                            href="/login"
-                                            onClick={() => setIsOpen(false)}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                        >
-                                            Login
-                                        </Link>
-                                        <Link
-                                            href="/register"
-                                            onClick={() => setIsOpen(false)}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                        >
-                                            Join Us
-                                        </Link>
-                                    </>
-                                )}
-                            </div>
                         </div>
                     </motion.div>
                 )}

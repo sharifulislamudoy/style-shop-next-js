@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import AuthLayout from '@/components/AuthLayout';
 import { signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -27,14 +28,16 @@ const LoginPage = () => {
     if (result.error) {
       setError(result.error);
     } else {
+      toast.success("Welcome back! 🎉");
       router.push("/products");
     }
   };
 
   const handleGoogleLogin = () => {
-    // Handle Google login logic here
+    localStorage.setItem("loginSuccess", "true");
     signIn("google", { callbackUrl: "/products" });
   };
+
 
   return (
     <AuthLayout title="Welcome Back" subtitle="Sign in to your account...">
