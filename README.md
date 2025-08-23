@@ -11,3 +11,21 @@ StyleShop is a simple e-commerce web application built with Next.js and NextAuth
 ```bash
 git clone https://github.com/sharifulislamudoy/style-shop-next-js
 cd style-shop-next-js
+
+```
+2. **Install dependencies**
+```bash
+npm install
+```
+3. **Setup environment variables**
+   Create a .env.local file at the project root with the following:
+```bash
+NEXTAUTH_SECRET=GFDnmsecK+Yd1jZib9ms8KnFzGH30YpIXR60Pk4Mngw=
+GOOGLE_CLIENT_ID=865638904036-2v6nka95998l3r3l4lg22mt4je0uuhm6.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+NEXTAUTH_URL=http://localhost:3000
+```
+4. **Run the development server**
+```bash
+npm run dev
+```
